@@ -7,6 +7,21 @@
 # to work as expected since the hostvar is persistent across tasks.
 # See defaults/main.yml for most of the logic.
 
+# os_server may return a misleading error if the requested image is missing
+# so run an explicit check
+# https://github.com/ansible/ansible/issues/18921#issuecomment-268891980
+# https://github.com/ansible/ansible/pull/19653
+
+- name: idr vm | get image
+  os_image_facts:
+    image: "{{ idr_vm_image }}"
+  # Creates variable openstack_image
+
+- name: idr vm | check image
+  fail:
+    msg: "Openstack image {{ idr_vm_image }} not found"
+  when: "{{ not openstack_image }}"
+
 - name: idr vm | create VM
   os_server:
     # Only add `-N` suffix for item>1
