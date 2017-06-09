@@ -19,7 +19,8 @@ Optional variables:
 - `idr_vm_keyname`: Openstack SSH key, defaults to `idr-deployment-key` (see the `openstack-idr-keypairs` role)
 - `idr_vm_private_networks`: Use this network instead of the default one
 - `idr_vm_assign_floating_ip`: Assign a floating IP, default `False`
-- `idr_vm_count`: Number of VMs to create, default `1`. The first VM will be named `idr_vm_name`, subsequent VMs will be named `idr_vm_name-N`
+- `idr_vm_count`: Number of VMs to create, default `1` (named `idr_vm_name`).
+   If `idr_vm_count > 1` then all instances will be named with a numeric suffix `idr_vm_name-N`
 - `idr_vm_networks`: A list of `net-name: NETWORK_NAME` pairs
 
 Booleans indicating the purpose of this server:
