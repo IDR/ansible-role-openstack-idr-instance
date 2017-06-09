@@ -25,6 +25,7 @@ idr_vm_count: 1
 # Booleans indicating the purpose of this server (multiple may be True)
 idr_vm_database: False
 idr_vm_omero: False
+idr_vm_omeroreadonly: False
 idr_vm_proxy: False
 idr_vm_dockermanager: False
 idr_vm_dockerworker: False
@@ -36,6 +37,7 @@ idr_vm_groups: >
   {{
     (idr_vm_database | ternary(idr_vm_default_groups_database, [])) +
     (idr_vm_omero | ternary(idr_vm_default_groups_omero, [])) +
+    (idr_vm_omeroreadonly | ternary(idr_vm_default_groups_omeroreadonly, [])) +
     (idr_vm_proxy | ternary(idr_vm_default_groups_proxy, [])) +
     (idr_vm_dockermanager | ternary(idr_vm_default_groups_dockermanager, [])) +
     (idr_vm_dockerworker | ternary(idr_vm_default_groups_dockerworker, [])) +
@@ -73,6 +75,13 @@ idr_vm_default_groups_database:
 idr_vm_default_groups_omero:
 - omero-hosts
 - "{{ idr_environment }}-omero-hosts"
+- "{{ idr_environment }}-hosts"
+
+idr_vm_default_groups_omeroreadonly:
+# Not sure about whether omeroreadonly should be part of omero
+#- omero-hosts
+- omeroreadonly-hosts
+- "{{ idr_environment }}-omeroreadonly-hosts"
 - "{{ idr_environment }}-hosts"
 
 idr_vm_default_groups_proxy:
