@@ -21,7 +21,7 @@
 - name: idr vm | check image
   fail:
     msg: "Openstack image {{ idr_vm_image }} not found"
-  when: "{{ not openstack_image }}"
+  when: "not openstack_image"
 
 - name: idr vm | create VM
   os_server:
