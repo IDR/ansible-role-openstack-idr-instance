@@ -26,8 +26,14 @@ Optional variables:
 Booleans indicating the purpose of this server:
 - If any of these are `True` they will be used to automatically set the security groups and host-groups for this VM, default `False`. Multiple may be set to `True` if a server has multiple purposes.
   - `idr_vm_database`: An IDR database server
-  - `idr_vm_omero`: An IDR OMERO server
+  - `idr_vm_omeroreadwrite`: An IDR OMERO read-write server
+  - `idr_vm_omeroreadonly`: An IDR OMERO read-only server
   - `idr_vm_proxy`: An IDR web proxy server
+  - `idr_vm_dockermanager`: An IDR Docker server
+  - `idr_vm_dockerworker`: An IDR Docker slave
+  - `idr_vm_bastion`: An IDR gateway host with external SSH
+  - `idr_vm_management`: An IDR monitoring server
+
 
 Advanced settings:
 - `idr_vm_groups`: A list of host-groups, default depends on the above booleans
