@@ -51,7 +51,7 @@ idr_vm_extra_groups: []
 idr_vm_security_groups: >
   {{
     ['default'] +
-    (idr_vm_omeroreadwrite | ternary(['idr-omeroreadwrite-external'], [])) +
+    (idr_vm_omeroreadwrite | ternary(['idr-omero-external'], [])) +
     (idr_vm_proxy | ternary(['idr-web-external'], [])) +
     (idr_vm_bastion | ternary(['idr-bastion-external'], [])) +
     (idr_vm_management | ternary(['idr-web-external'], []))
