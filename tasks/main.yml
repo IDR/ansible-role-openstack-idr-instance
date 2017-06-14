@@ -15,18 +15,18 @@
 - name: idr vm | get image
   os_image_facts:
     image: "{{ idr_vm_image }}"
-  always_run: yes
+  check_mode: no
   # Creates variable openstack_image
 
 - name: idr vm | check image
   fail:
     msg: "Openstack image {{ idr_vm_image }} not found"
-  when: "{{ not openstack_image }}"
+  when: "not openstack_image"
 
 - name: idr vm | create VM
   os_server:
-    # Only add `-N` suffix for item>1
-    name: "{{ idr_vm_name }}{{ (item | int > 1) | ternary('-' + item, '') }}"
+    # Only add `-N` suffix for idr_vm_count>1
+    name: "{{ idr_vm_name }}{{ (idr_vm_count > 1) | ternary('-' + item, '') }}"
     state: present
     image: "{{ idr_vm_image }}"
     key_name: "{{ idr_vm_keyname }}"

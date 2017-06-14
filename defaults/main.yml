@@ -24,7 +24,8 @@ idr_vm_count: 1
 
 # Booleans indicating the purpose of this server (multiple may be True)
 idr_vm_database: False
-idr_vm_omero: False
+idr_vm_omeroreadwrite: False
+idr_vm_omeroreadonly: False
 idr_vm_proxy: False
 idr_vm_dockermanager: False
 idr_vm_dockerworker: False
@@ -35,7 +36,8 @@ idr_vm_management: False
 idr_vm_groups: >
   {{
     (idr_vm_database | ternary(idr_vm_default_groups_database, [])) +
-    (idr_vm_omero | ternary(idr_vm_default_groups_omero, [])) +
+    (idr_vm_omeroreadwrite | ternary(idr_vm_default_groups_omeroreadwrite, [])) +
+    (idr_vm_omeroreadonly | ternary(idr_vm_default_groups_omeroreadonly, [])) +
     (idr_vm_proxy | ternary(idr_vm_default_groups_proxy, [])) +
     (idr_vm_dockermanager | ternary(idr_vm_default_groups_dockermanager, [])) +
     (idr_vm_dockerworker | ternary(idr_vm_default_groups_dockerworker, [])) +
@@ -49,7 +51,7 @@ idr_vm_extra_groups: []
 idr_vm_security_groups: >
   {{
     ['default'] +
-    (idr_vm_omero | ternary(['idr-omero-external'], [])) +
+    (idr_vm_omeroreadwrite | ternary(['idr-omero-external'], [])) +
     (idr_vm_proxy | ternary(['idr-web-external'], [])) +
     (idr_vm_bastion | ternary(['idr-bastion-external'], [])) +
     (idr_vm_management | ternary(['idr-web-external'], []))
@@ -70,7 +72,16 @@ idr_vm_default_groups_database:
 - "{{ idr_environment }}-database-hosts"
 - "{{ idr_environment }}-hosts"
 
-idr_vm_default_groups_omero:
+idr_vm_default_groups_omeroreadwrite:
+- omeroreadwrite-hosts
+- "{{ idr_environment }}-omeroreadwrite-hosts"
+- omero-hosts
+- "{{ idr_environment }}-omero-hosts"
+- "{{ idr_environment }}-hosts"
+
+idr_vm_default_groups_omeroreadonly:
+- omeroreadonly-hosts
+- "{{ idr_environment }}-omeroreadonly-hosts"
 - omero-hosts
 - "{{ idr_environment }}-omero-hosts"
 - "{{ idr_environment }}-hosts"
