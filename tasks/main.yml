@@ -37,7 +37,8 @@
       {{ dict([
           ("hostname", idr_vm_name),
           ("groups", ','.join(
-            idr_vm_groups + idr_vm_extra_groups + idr_vm_cloud_group)),
+            idr_vm_groups + idr_vm_cloud_group)),
+          ("groups2", ','.join(idr_vm_extra_groups)),
         ] +
         idr_vm_ssh_metadata +
         idr_vm_network_metadata
