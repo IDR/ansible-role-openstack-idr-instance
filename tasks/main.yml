@@ -15,7 +15,7 @@
 - name: idr vm | get image
   os_image_facts:
     image: "{{ idr_vm_image }}"
-  check_mode: no
+  check_mode: false
   # Creates variable openstack_image
 
 - name: idr vm | check image
