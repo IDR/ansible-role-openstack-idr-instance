@@ -127,3 +127,8 @@ idr_vm_cloud_group: >
     (idr_deployment_cloud | default('') | length > 0) | ternary(
       [idr_deployment_cloud + '-hosts'], [])
   }}
+
+# Compute the size of the boot volume from the flavor
+# Assumes VM flavor are following the <vcpus>c<ram>m<size>d scheme
+idr_vm_volume_size: >
+  {{ idr_vm_flavour | regex_findall('[0-9]+') | last | int }}

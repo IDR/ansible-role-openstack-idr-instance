@@ -44,5 +44,8 @@
         idr_vm_network_metadata
       ) }}
     security_groups: "{{ idr_vm_security_groups | join(',') }}"
+    boot_from_volume: true
+    terminate_volume: true
+    volume_size: "{{ idr_vm_volume_size }}"
   register: vm
   with_sequence: "count={{ idr_vm_count }}"
