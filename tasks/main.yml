@@ -23,6 +23,11 @@
     msg: "Openstack image {{ idr_vm_image }} not found"
   when: "not openstack_image"
 
+- name: idr vm | get volume size from flavor
+  os_flavor_facts:
+    name: "{{ idr_vm_flavour }}"
+  register: result
+
 - name: idr vm | create VM
   os_server:
     # Only add `-N` suffix for idr_vm_count>1
@@ -46,6 +51,6 @@
     security_groups: "{{ idr_vm_security_groups | join(',') }}"
     boot_from_volume: true
     terminate_volume: true
-    volume_size: "{{ idr_vm_volume_size }}"
+    volume_size: "{{ result.ansible_facts.openstack_flavors[0].disk }}"
   register: vm
   with_sequence: "count={{ idr_vm_count }}"
