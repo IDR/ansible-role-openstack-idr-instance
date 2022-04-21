@@ -76,7 +76,7 @@ idr_vm_network_metadata: >
   )] }}
 
 idr_vm_default_groups:
- - "{{ idr_environment }}-hosts"
+  - "{{ idr_environment }}-hosts"
 
 idr_vm_default_groups_database:
   - database-hosts
