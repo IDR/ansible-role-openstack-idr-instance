@@ -35,6 +35,7 @@ idr_vm_management: false
 # Default groups depend on the purpose of this server
 idr_vm_groups: >
   {{
+    idr_vm_default_groups +
     (idr_vm_database | ternary(idr_vm_default_groups_database, [])) +
     (idr_vm_omeroreadwrite | ternary(idr_vm_default_groups_omeroreadwrite,
      [])) +
@@ -74,47 +75,43 @@ idr_vm_network_metadata: >
        (idr_vm_networks | default([]) | map(attribute='net-name') | join(','))
   )] }}
 
+idr_vm_default_groups:
+  - "{{ idr_environment }}-hosts"
+
 idr_vm_default_groups_database:
   - database-hosts
   - "{{ idr_environment }}-database-hosts"
-  - "{{ idr_environment }}-hosts"
 
 idr_vm_default_groups_omeroreadwrite:
   - omeroreadwrite-hosts
   - "{{ idr_environment }}-omeroreadwrite-hosts"
   - omero-hosts
   - "{{ idr_environment }}-omero-hosts"
-  - "{{ idr_environment }}-hosts"
 
 idr_vm_default_groups_omeroreadonly:
   - omeroreadonly-hosts
   - "{{ idr_environment }}-omeroreadonly-hosts"
   - omero-hosts
   - "{{ idr_environment }}-omero-hosts"
-  - "{{ idr_environment }}-hosts"
 
 idr_vm_default_groups_proxy:
   - proxy-hosts
   - "{{ idr_environment }}-proxy-hosts"
-  - "{{ idr_environment }}-hosts"
 
 idr_vm_default_groups_bastion:
   - bastion-hosts
   - "{{ idr_environment }}-bastion-hosts"
-  - "{{ idr_environment }}-hosts"
 
 idr_vm_default_groups_dockermanager:
   - dockermanager-hosts
   - "{{ idr_environment }}-dockermanager-hosts"
   - "{{ idr_environment }}-docker-hosts"
-  - "{{ idr_environment }}-hosts"
   - "{{ idr_environment }}-data-hosts"
 
 idr_vm_default_groups_dockerworker:
   - dockerworker-hosts
   - "{{ idr_environment }}-dockerworker-hosts"
   - "{{ idr_environment }}-docker-hosts"
-  - "{{ idr_environment }}-hosts"
 
 # Management nodes are special since they may cross multiple environments
 idr_vm_default_groups_management:
