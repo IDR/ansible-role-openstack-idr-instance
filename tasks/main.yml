@@ -13,23 +13,23 @@
 # https://github.com/ansible/ansible/pull/19653
 
 - name: idr vm | get image
-  os_image_facts:
+  openstack.cloud.image_info:
     image: "{{ idr_vm_image }}"
   check_mode: false
-  # Creates variable openstack_image
+  register: result
 
 - name: idr vm | check image
   fail:
     msg: "Openstack image {{ idr_vm_image }} not found"
-  when: "not openstack_image"
+  when: "not result.openstack_image"
 
 - name: idr vm | get volume size from flavor
-  os_flavor_facts:
+  openstack.cloud.compute_flavor_info:
     name: "{{ idr_vm_flavour }}"
   register: result
 
 - name: idr vm | create VM
-  os_server:
+  openstack.cloud.server:
     # Only add `-N` suffix for idr_vm_count>1
     name: "{{ idr_vm_name }}{{ (idr_vm_count > 1) | ternary('-' + item, '') }}"
     state: present
@@ -51,6 +51,6 @@
     security_groups: "{{ idr_vm_security_groups | join(',') }}"
     boot_from_volume: true
     terminate_volume: true
-    volume_size: "{{ result.ansible_facts.openstack_flavors[0].disk }}"
+    volume_size: "{{ result.openstack_flavors[0].disk }}"
   register: vm
   with_sequence: "count={{ idr_vm_count }}"
