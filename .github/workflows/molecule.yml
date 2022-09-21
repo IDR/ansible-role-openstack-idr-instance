@@ -33,6 +33,7 @@ jobs:
       - uses: ome/action-ome-ansible-molecule@main
         with:
           scenario: ${{ matrix.scenario }}
+          ome-ansible-molecule-version: 0.7.0a1
 
   publish:
     name: Galaxy
