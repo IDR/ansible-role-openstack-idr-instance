@@ -13,20 +13,20 @@
 # https://github.com/ansible/ansible/pull/19653
 
 - name: idr vm | get image
-  os_image_facts:
+  os_image_info:
     image: "{{ idr_vm_image }}"
   check_mode: false
-  # Creates variable openstack_image
+  register: image_result
 
 - name: idr vm | check image
   fail:
     msg: "Openstack image {{ idr_vm_image }} not found"
-  when: "not openstack_image"
+  when: "not image_result.openstack_image"
 
 - name: idr vm | get volume size from flavor
-  os_flavor_facts:
+  os_flavor_info:
     name: "{{ idr_vm_flavour }}"
-  register: result
+  register: flavor_result
 
 - name: idr vm | create VM
   os_server:
@@ -51,6 +51,6 @@
     security_groups: "{{ idr_vm_security_groups | join(',') }}"
     boot_from_volume: true
     terminate_volume: true
-    volume_size: "{{ result.ansible_facts.openstack_flavors[0].disk }}"
+    volume_size: "{{ flavor_result.openstack_flavors[0].disk }}"
   register: vm
   with_sequence: "count={{ idr_vm_count }}"
